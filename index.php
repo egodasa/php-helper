@@ -1,118 +1,328 @@
 <?php
-// level_array : daftar level yang bisa mengakses halaman
-// halaman_login : apakah halaman yang dicek login atau tidak
-function cekIzinAksesHalaman($level_array, $base_url = "http://localhost/cafe", $halaman_login = false)
+function angkaNolDepan($angka){
+   return $angka > 9 ? $angka : "0".$angka;
+}
+
+function TanggalIndo($date){
+    $BulanIndo = array("Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember");
+ 
+    $tahun = substr($date, 0, 4);
+    $bulan = substr($date, 5, 2);
+    $tgl   = substr($date, 8, 2);
+ 
+    $result = $tgl . " " . $BulanIndo[(int)$bulan-1] . " ". $tahun;        
+    return($result);
+}
+
+
+// $hari_inggris contoh : Mon, Tue, Wed, Thu ...
+function hariIndo($hari_inggris){
+  $hasil = array(
+    "Sun" => "Minggu",
+    "Mon" => "Senin",
+    "Tue" => "Selasa",
+    "Wed" => "Rabu",
+    "Thu" => "Kamis",
+    "Fri" => "Jumat",
+    "Sat" => "Sabtu"
+  );
+  return $hasil[$hari_inggris];
+}
+// $angka_bulan contoh : 01, 02, 03, 1, 2, 3 ...
+function bulanIndo($angka_bulan){
+  $hasil = array(
+    "01" => "Januari",
+    "02" => "Februari",
+    "03" => "Maret",
+    "04" => "April",
+    "05" => "Mei",
+    "06" => "Juni",
+    "07" => "Juli",
+    "08" => "Agustus",
+    "09" => "September",
+    "10" => "Oktober",
+    "11" => "November",
+    "12" => "Desember",
+    "1" => "Januari",
+    "2" => "Februari",
+    "3" => "Maret",
+    "4" => "April",
+    "5" => "Mei",
+    "6" => "Juni",
+    "7" => "Juli",
+    "8" => "Agustus",
+    "9" => "September"
+  );
+  return $hasil[$angka_bulan];
+}
+
+function terbilang($satuan){
+   $huruf = array ("", "Satu", "Dua", "Tiga", "Empat", "Lima", "Enam", "Tujuh", "Delapan", "Sembilan", "Sepuluh","Sebelas");
+   if ($satuan < 12)
+      return " ".$huruf[$satuan];
+   elseif ($satuan < 20)
+      return terbilang($satuan - 10)." Belas";
+   elseif ($satuan < 100)
+      return terbilang($satuan / 10)." Puluh".terbilang($satuan % 10);
+   elseif ($satuan < 200)
+      return " Seratus".terbilang($satuan - 100);
+   elseif ($satuan < 1000)
+      return terbilang($satuan / 100)." Ratus".terbilang($satuan % 100);
+   elseif ($satuan < 2000)
+      return " Seribu".terbilang($satuan - 1000);
+   elseif ($satuan < 1000000)
+      return terbilang($satuan / 1000)." Ribu".terbilang($satuan % 1000);
+   elseif ($satuan < 1000000000)
+      return terbilang($satuan / 1000000)." Juta".terbilang($satuan % 1000000);
+   elseif ($satuan >= 1000000000)
+      echo "Angka yang Anda masukkan terlalu besar";
+   }
+function integerToRoman($integer)
 {
-  // Jika posisi sekarang halaman login, maka lempar ke halaman level jika sudah login
-  if($halaman_login == true){
-    if(isset($_SESSION['level'])){
-      if($_SESSION['level'] == 'Kasir'){
-        header("Location: $base_url/pembayaran");
-      }
-      else if($_SESSION['level'] == 'Dapur'){
-        header("Location: $base_url/dapur");
-      }
+ // Convert the integer into an integer (just to make sure)
+ $integer = intval($integer);
+ $result = '';
+ 
+ // Create a lookup array that contains all of the Roman numerals.
+ $lookup = array('M' => 1000,
+ 'CM' => 900,
+ 'D' => 500,
+ 'CD' => 400,
+ 'C' => 100,
+ 'XC' => 90,
+ 'L' => 50,
+ 'XL' => 40,
+ 'X' => 10,
+ 'IX' => 9,
+ 'V' => 5,
+ 'IV' => 4,
+ 'I' => 1);
+ 
+ foreach($lookup as $roman => $value){
+  // Determine the number of matches
+  $matches = intval($integer/$value);
+ 
+  // Add the same number of characters to the string
+  $result .= str_repeat($roman,$matches);
+ 
+  // Set the integer to be the remainder of the integer and the value
+  $integer = $integer % $value;
+ }
+ 
+ // The Roman numeral should be built, return it
+ return $result;
+}
+function tgl_indo($tgl){
+
+			$tanggal = substr($tgl,8,2);
+
+			$bulan = getBulan(substr($tgl,5,2));
+
+			$tahun = substr($tgl,0,4);
+
+			return $tanggal.' '.$bulan.' '.$tahun;		 
+
+	}	
+
+
+
+	function getBulan($bln){
+
+				switch ($bln){
+
+					case 1: 
+
+						return "Januari";
+
+						break;
+
+					case 2:
+
+						return "Februari";
+
+						break;
+
+					case 3:
+
+						return "Maret";
+
+						break;
+
+					case 4:
+
+						return "April";
+
+						break;
+
+					case 5:
+
+						return "Mei";
+
+						break;
+
+					case 6:
+
+						return "Juni";
+
+						break;
+
+					case 7:
+
+						return "Juli";
+
+						break;
+
+					case 8:
+
+						return "Agustus";
+
+						break;
+
+					case 9:
+
+						return "September";
+
+						break;
+
+					case 10:
+
+						return "Oktober";
+
+						break;
+
+					case 11:
+
+						return "November";
+
+						break;
+
+					case 12:
+
+						return "Desember";
+
+						break;
+
+				}
+
+			} 
+function tanggal_indo($tanggal, $cetak_hari = false, $pemisah_hari = ", ")
+{
+  if($tanggal != "")
+  {
+    $tanggal = substr($tanggal, 0, -10);
+    $hari = array ( 1 =>    'Senin',
+          'Selasa',
+          'Rabu',
+          'Kamis',
+          'Jumat',
+          'Sabtu',
+          'Minggu'
+        );
+        
+    $bulan = array (1 =>   'Januari',
+          'Februari',
+          'Maret',
+          'April',
+          'Mei',
+          'Juni',
+          'Juli',
+          'Agustus',
+          'September',
+          'Oktober',
+          'November',
+          'Desember'
+        );
+    $split 	  = explode('-', $tanggal);
+    $tgl_indo = $split[2] . ' ' . $bulan[(int)$split[1]] . ' ' . $split[0];
+    
+    if ($cetak_hari) {
+      $num = date('N', strtotime($tanggal));
+      return $hari[$num] .$pemisah_hari. $tgl_indo;
     }
-  }else{
-    // Jika belum login, maka redirect ke login
-    if(!isset($_SESSION['level'])){
-      header("Location: $base_url/login");
-    }else{
-      
-      // Jika level tidak sesuai dengan level_array, maka redirect ke halaman levelnya
-      if(!in_array($_SESSION['level'], $level_array)){
-        if($_SESSION['level'] == 'Kasir'){
-          header("Location: $base_url/pembayaran");
-        }
-        else if($_SESSION['level'] == 'Dapur'){
-          header("Location: $base_url/dapur");
-        }
-      }
-    }
+    return $tgl_indo;
+  }
+  else
+  {
+    return "";  
   }
 }
-function tanggal_indo($tanggal, $cetak_hari = false)
+function tanggal_indo_angka($tgl_mysql)
 {
-	$hari = array ( 1 =>    'Senin',
-				'Selasa',
-				'Rabu',
-				'Kamis',
-				'Jumat',
-				'Sabtu',
-				'Minggu'
-			);
-			
-	$bulan = array (1 =>   'Januari',
-				'Februari',
-				'Maret',
-				'April',
-				'Mei',
-				'Juni',
-				'Juli',
-				'Agustus',
-				'September',
-				'Oktober',
-				'November',
-				'Desember'
-			);
-	$split 	  = explode('-', $tanggal);
-	$tgl_indo = $split[2] . ' ' . $bulan[ (int)$split[1] ] . ' ' . $split[0];
-	
-	if ($cetak_hari) {
-		$num = date('N', strtotime($tanggal));
-		return $hari[$num] . ', ' . $tgl_indo;
-	}
-	return $tgl_indo;
+  $hasil = explode("-", $tgl_mysql);
+  return $hasil[2]."-".$hasil[1]."-".$hasil[0];
 }
-function rupiah($nilai, $simbol = "Rp", $spasi_rupiah = "", $dibelakang_koma = 0, $penutup = "")
+function rupiah($nilai, $simbol = "Rp", $spasi_rupiah = "", $dibelakang_koma = 0, $penutup = "", $pemisah_koma = ",", $pemisah_ribuan = ".")
 {
+  if($nilai == "")
+  {
+    $nilai = 0;
+  }
+  $nilai = intval($nilai);
    // $penutup = ,-
    // $dibelakang_koma = 2 -> ,00
-  return $simbol.$spasi_rupiah.number_format($nilai,$dibelakang_koma,',','.').$penutup;
+  return $simbol.$spasi_rupiah.number_format($nilai,$dibelakang_koma ,$pemisah_koma, $pemisah_ribuan).$penutup;
 }
-function generateNumber()
+
+// mirip dengan rupiah, tapi tulisan simbol mata uang akan jadi rata kiri dan angka rata kanan. Contoh : Rp            1.000.000
+function rupiahSpasi($nilai, $simbol = "Rp", $spasi_rupiah = "", $dibelakang_koma = 0, $penutup = "", $pemisah_koma = ",", $pemisah_ribuan = ".")
 {
-  $now = DateTime::createFromFormat('U.u', microtime(true));
-  return $now->format("dmyHisu");
+  $nilai = intval($nilai);
+   // $penutup = ,-
+   // $dibelakang_koma = 2 -> ,00
+  return "<div style='float: left;'>".$simbol."</div> <div style='float: right;'>".$spasi_rupiah.number_format($nilai,$dibelakang_koma ,$pemisah_koma, $pemisah_ribuan).$penutup."</div><div style='clear: both;'></div>";
 }
+
 function tanggal_indo_waktu($waktu, $hari = false){
   $bagian = explode(" ", $waktu);
   $tanggal = tanggal_indo($bagian[0], $hari);
   return $tanggal." ".$bagian[1];
 }
+function tanggal_indo_bulan_tahun($tanggal){
+   $waktu = explode(" ", tanggal_indo_waktu($tanggal));
+   return $waktu[1]." ".$waktu[2];
+}
+function alertBootstrap($jenis_alert = "success", $judul = "Pesan!", $isi_pesan = "Isi Pesan."){
+   $icon_alert = array(
+      "success" => "check",
+      "warning" => "warning",
+      "info" => "info",
+      "danger" => "ban",
+   );
+   return "<div class='alert alert-".$jenis_alert." alert-dismissible'>
+   <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>×</button>
+   <h4><i class='icon fa fa-".$icon_alert[$jenis_alert]."'></i> ".$judul."</h4>
+   ".$isi_pesan."
+   </div>";
+}
 function namaBulan($angka_bulan){
-  $bulan = array(
-    '01' => 'Januari',
-    '02' => 'Februari',
-    '03' => 'Maret',
-    '04' => 'April',
-    '05' => 'Mei',
-    '06' => 'Juni',
-    '07' => 'Juli',
-    '08' => 'Agustus',
-    '09' => 'September',
-    '10' => 'Oktober',
-    '11' => 'November',
-    '12' => 'Desember',
-    '1' => 'Januari',
-    '2' => 'Februari',
-    '3' => 'Maret',
-    '4' => 'April',
-    '5' => 'Mei',
-    '6' => 'Juni',
-    '7' => 'Juli'
-  );
-  return $bulan[$angka_bulan];
-}
-function fileUpload($files, $lokasi){
-  $file_tmp = $files['tmp_name'];
-  $file_ext=strtolower(end(explode('.', $files['name'])));
-  $nama_file = generateNumber().".".$file_ext;
-  $lokasi_file = $lokasi.$nama_file;
-  move_uploaded_file($file_tmp, $lokasi_file);
-  return $nama_file;
-}
-function angkaHuruf($angka){
+   $bulan = array(
+     '01' => 'Januari',
+     '02' => 'Februari',
+     '03' => 'Maret',
+     '04' => 'April',
+     '05' => 'Mei',
+     '06' => 'Juni',
+     '07' => 'Juli',
+     '08' => 'Agustus',
+     '09' => 'September',
+     '10' => 'Oktober',
+     '11' => 'November',
+     '12' => 'Desember',
+     '1' => 'Januari',
+     '2' => 'Februari',
+     '3' => 'Maret',
+     '4' => 'April',
+     '5' => 'Mei',
+     '6' => 'Juni',
+     '7' => 'Juli',
+     '8' => 'Agustus',
+     '9' => 'September'
+   );
+   return $bulan[$angka_bulan];
+ }
+
+ // Angka dimulai dari 0
+ function angkaHuruf($angka){
     $huruf = [
        "A",
        "B",
@@ -142,40 +352,48 @@ function angkaHuruf($angka){
        "Z"];
    return $huruf[$angka];
 }
-/*
- * 
- * name: warnaAcak
- * @param
- * $acuan_acak : jika array dimasukan kesini, maka warna yang dihasilkan akan unik dengan $acuan_acak
- * @return string warna
- * 
- */
-
-function warnaAcak($acuan_acak = [])
+function tab($jumlah)
 {
-  $warna = [
-    '#3366CC','#DC3912','#FF9900','#109618','#990099','#3B3EAC',
-    '#0099C6','#DD4477','#FF8C00','#00FF7F','#0000CD','#ADFF2F',
-    '#9ACD32','#9932CC','#F4A460','#008B8B','#B22222','#F0E68C',
-    '#FFDEAD','#BDB76B','#7FFF00','#FF4500','#FF0000','#00FF00',
-    '#0000FF','#FF1493','#1E90FF','#9400D3','#DAA520','#5574A6',
-    '#66AA00','#3B3EAC','#B82E2E','#708090','#316395','#FFF8DC',
-    '#994499','#00FFFF','#22AA99','#FF00FF','#AAAA11','#FFFF00',
-    '#6633CC','#FFD700','#E67300','#00BFFF','#8B0707','#FFA500',
-    '#329262','#483D8B','#5F9EA0','#AFEEEE','#708090','#E0FFFF'
-  ];
-  if(count($acuan_acak) == 0)
+  $result = [];
+  for($x = 1; $x <= $jumlah; $x++)
   {
-    return $warna[mt_rand(0, count($warna)-1)];
+    array_push($result, "&ensp;");
+  }
+  return implode("", $result);
+}
+// $panggilan harus ditentukan keduanya jika ingin panggilan kustom
+function panggilan($jk, $panggilan = ["Bpk. ","Ibu. "])
+{
+   $jk = str_replace($jk,""," ");
+  $hasil = [
+    "Laki-Laki" => $panggilan[0],
+    "Perempuan" => $panggilan[1],
+    "Pria" => $panggilan[0],
+    "Wanita" => $panggilan[1],
+	  "L" => $panggilan[0],
+    "P" => $panggilan[1]
+  ];
+  return $hasil[$jk];
+}
+function penyebutanUrutan($angka)
+{
+  $angka = intval($angka);
+  if($angka == 1)
+  {
+    return "Pertama";
   }
   else
   {
-    $warna_tmp = warnaAcak();
-    while(in_array($warna_tmp, $acuan_acak))
-    {
-      $warna_tmp = warnaAcak();
-    }
-    return $warna_tmp;
+    $hasil_tmp = "Ke".strtolower(terbilang($angka));
+    return str_replace(" ", "", $hasil_tmp);
   }
+}
+function fileUpload($files, $lokasi){
+  $file_tmp = $files['tmp_name'];
+  $file_ext=strtolower(end(explode('.', $files['name'])));
+  $nama_file = generateNumber().".".$file_ext;
+  $lokasi_file = $lokasi.$nama_file;
+  move_uploaded_file($file_tmp, $lokasi_file);
+  return $nama_file;
 }
 ?>
