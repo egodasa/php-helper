@@ -388,6 +388,11 @@ function penyebutanUrutan($angka)
     return str_replace(" ", "", $hasil_tmp);
   }
 }
+function generateNumber()
+{
+  $now = DateTime::createFromFormat('U.u', microtime(true));
+  return $now->format("dmyHisu");
+}
 function fileUpload($files, $lokasi){
   $file_tmp = $files['tmp_name'];
   $file_ext=strtolower(end(explode('.', $files['name'])));
