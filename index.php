@@ -401,4 +401,29 @@ function fileUpload($files, $lokasi){
   move_uploaded_file($file_tmp, $lokasi_file);
   return $nama_file;
 }
+
+/*
+ selisihWaktu($FromDate, $ToDate)
+ $fromdate = tanggal awal
+ $todate = tanggal akhir
+ $hasil = selisihWaktu('1995-10-10', '2019-10-10');
+ echo $hasil['jam'];
+ echo $hasil['minggu'];
+ echo $hasil['hari'];
+ echo $hasil['bulan'];
+ echo $hasil['tahun'];
+*/
+function selisihWaktu($FromDate, $ToDate) {
+  $FromDate = new DateTime($FromDate);
+  $ToDate   = new DateTime($ToDate);
+  $Interval = $FromDate->diff($ToDate);
+
+  $Difference["jam"] = $Interval->h;
+  $Difference["minggu"] = floor($Interval->d/7);
+  $Difference["hari"] = $Interval->d % 7;
+  $Difference["bulan"] = $Interval->m;
+  $Difference["tahun"] = $Interval->y;
+
+  return $Difference;
+}
 ?>
