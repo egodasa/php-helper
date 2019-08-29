@@ -395,7 +395,8 @@ function generateNumber()
 }
 function fileUpload($files, $lokasi){
   $file_tmp = $files['tmp_name'];
-  $file_ext=strtolower(end(explode('.', $files['name'])));
+  $nama_file_tmp = end(explode('.', $files['name']))
+  $file_ext=strtolower($nama_file_tmp);
   $nama_file = generateNumber().".".$file_ext;
   $lokasi_file = $lokasi.$nama_file;
   move_uploaded_file($file_tmp, $lokasi_file);
@@ -425,5 +426,11 @@ function selisihWaktu($FromDate, $ToDate) {
   $Difference["tahun"] = $Interval->y;
 
   return $Difference;
+}
+
+// return true kalau file ada yang diupload
+function isFileUploaded($nama_file)
+{
+	return (file_exists($_FILES[$nama_file]['tmp_name']) || is_uploaded_file($_FILES[$nama_file]['tmp_name']));
 }
 ?>
